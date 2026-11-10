@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Happy Birthday!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Familjen+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#000;--paper:#fff;--grey:#d9d9d9;--shadow:8px 8px 0 var(--ink);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font:500 1.1rem/1.5 "Familjen Grotesk",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:"Bowlby One","Arial Black",Impact,sans-serif;font-weight:400;line-height:.95;margin:0;letter-spacing:-.01em}
+section{padding:clamp(3.5rem,10vw,7rem) 1.25rem;position:relative}
+.wrap{max-width:62rem;margin:0 auto}
+.inv{background:var(--ink);color:var(--paper)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(40px) rotate(-1deg);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;text-align:center}
+.hero h1{font-size:clamp(3.2rem,19vw,13rem)}
+.hero .name{display:block;-webkit-text-stroke:2px var(--paper);color:transparent;transition:color .3s}
+.hero .name:hover{color:var(--paper)}
+.hero p{font-size:1.3rem;max-width:26rem;margin:1.5rem auto 0}
+.hero h1 span{display:inline-block;animation:pop .9s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{transform:translateY(60px) scale(.4) rotate(-12deg);opacity:0}}
+.down{margin-top:2.5rem;font-size:2.5rem;animation:bob 1.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(12px)}}
+
+/* marquee */
+.mq{background:var(--paper);color:var(--ink);border-block:4px solid var(--ink);overflow:hidden;white-space:nowrap;padding:.6rem 0;transform:rotate(-1.5deg);margin:-1rem -2rem}
+.mq div{display:inline-block;font:400 clamp(1.4rem,5vw,2.4rem)/1 "Bowlby One",Impact,sans-serif;animation:slide 18s linear infinite}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* photos */
+h2{font-size:clamp(2.6rem,11vw,6.5rem);margin-bottom:2.5rem}
+.photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:2rem 1.5rem}
+.ph{background:var(--paper);border:4px solid var(--ink);box-shadow:var(--shadow);padding:.7rem .7rem 1rem;transition:transform .35s cubic-bezier(.2,1.4,.4,1),box-shadow .35s;cursor:pointer}
+.ph:nth-child(odd){transform:rotate(-2.5deg)}.ph:nth-child(even){transform:rotate(2deg)}
+.ph.rv:not(.in){transform:translateY(40px)}
+.ph:hover,.ph:focus-visible{transform:rotate(0) scale(1.06) translateY(-6px);box-shadow:14px 14px 0 var(--ink);outline:none;z-index:2}
+.ph img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(1) contrast(1.15);transition:filter .3s}
+.ph:hover img{filter:grayscale(0)}
+.ph figcaption{font:400 1.2rem/1.1 "Bowlby One",Impact,sans-serif;margin-top:.8rem}
+
+/* jokes */
+.jokes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));gap:1.5rem}
+.jk{perspective:900px;height:17rem;cursor:pointer;background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left}
+.jk i{position:absolute;inset:0;transition:transform .7s cubic-bezier(.2,.9,.3,1.1);transform-style:preserve-3d;display:block}
+.jk{position:relative}
+.jk.flip i,.jk:hover i{transform:rotateY(180deg)}
+.jk b,.jk em{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:4px solid var(--paper);padding:1.4rem;display:flex;align-items:center;font-style:normal}
+.jk b{font:400 clamp(1.7rem,6vw,2.2rem)/1 "Bowlby One",Impact,sans-serif;background:var(--ink);color:var(--paper)}
+.jk em{background:var(--paper);color:var(--ink);transform:rotateY(180deg);font-size:1.15rem;font-weight:700;box-shadow:inset 0 0 0 6px var(--paper),inset 0 0 0 9px var(--ink)}
+.hint{margin-top:1.5rem;opacity:.7}
+
+/* secret */
+.secret{text-align:center;min-height:90svh;display:flex;align-items:center}
+.secret .wrap{width:100%}
+.hold{position:relative;overflow:hidden;font:400 clamp(1.4rem,6vw,2rem)/1 "Bowlby One",Impact,sans-serif;background:var(--paper);color:var(--ink);border:4px solid var(--ink);box-shadow:var(--shadow);padding:1.4rem 2rem;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;transition:transform .2s}
+.hold:hover{transform:rotate(-2deg) scale(1.04)}
+.hold:active{transform:translate(4px,4px);box-shadow:4px 4px 0 var(--ink)}
+.hold::before{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleX(var(--p,0));transform-origin:left;mix-blend-mode:difference}
+.hold span{position:relative}
+.msg{display:none;text-align:left;max-width:40rem;margin:0 auto}
+.msg.on{display:block}
+.msg h2{margin-bottom:1.5rem}
+.msg p{font-size:clamp(1.25rem,4.5vw,1.7rem);line-height:1.35;opacity:0;transform:translateY(20px);transition:.7s}
+.msg p.in{opacity:1;transform:none}
+.sign{font:400 2rem "Bowlby One",Impact,sans-serif;margin-top:2rem}
+canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+body.setup-on>*:not(#setup):not(script){display:none!important}
+#setup{min-height:100svh;background:var(--ink);color:var(--paper);padding:clamp(2.5rem,8vw,5rem) 1.25rem}
+#setup h1{font-size:clamp(3rem,15vw,9rem);margin-bottom:1rem;animation:pop .9s cubic-bezier(.2,1.4,.4,1) both}
+#setup .wrap{max-width:40rem}
+#setup .q{display:block;font:400 1.5rem/1 "Bowlby One",Impact,sans-serif;margin:2.2rem 0 .8rem}
+#nm{width:100%;font:700 1.6rem "Familjen Grotesk",system-ui,sans-serif;padding:1rem;background:var(--ink);color:var(--paper);border:4px solid var(--paper);border-radius:0;transition:transform .2s,box-shadow .2s}
+#nm:focus{outline:none;transform:rotate(-1deg);box-shadow:8px 8px 0 var(--paper)}
+.drop{display:block;text-align:center;border:4px dashed var(--paper);padding:2rem 1rem;font-weight:700;font-size:1.2rem;cursor:pointer;transition:transform .25s cubic-bezier(.2,1.4,.4,1),background .2s,color .2s}
+.drop:hover,#pf:focus-visible+.drop{background:var(--paper);color:var(--ink);transform:rotate(1.5deg) scale(1.02)}
+#thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(8.5rem,1fr));gap:1rem;margin-top:1.2rem}
+.th{position:relative;border:3px solid var(--paper);padding:.4rem;background:var(--ink)}
+.th img{display:block;width:100%;aspect-ratio:1;object-fit:cover;filter:grayscale(1)}
+.th input{width:100%;margin-top:.4rem;font:500 .95rem inherit;font-family:inherit;background:var(--paper);color:var(--ink);border:0;padding:.4rem;border-radius:0}
+.th button{position:absolute;top:-.8rem;right:-.8rem;width:2rem;height:2rem;border-radius:50%;border:3px solid var(--ink);background:var(--paper);color:var(--ink);font:700 1.1rem/1 inherit;cursor:pointer}
+.btn{display:block;width:100%;margin-top:2.2rem;font:400 clamp(1.4rem,6vw,2rem)/1 "Bowlby One",Impact,sans-serif;background:var(--paper);color:var(--ink);border:4px solid var(--paper);padding:1.3rem;cursor:pointer;box-shadow:8px 8px 0 #777;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:rotate(-1.5deg) scale(1.03)}.btn:active{transform:translate(4px,4px);box-shadow:4px 4px 0 #777}
+.skip,.redo{background:none;border:0;color:inherit;font:inherit;text-decoration:underline;cursor:pointer;opacity:.7;margin-top:1.2rem;padding:.5rem 0}
+footer{text-align:center;padding:1rem 1.25rem 2rem}
+body.viewing #setup{display:none!important}body.viewing{background:#000}
+.fld{width:100%;display:block;font:500 1.15rem "Familjen Grotesk",system-ui,sans-serif;padding:.9rem;background:var(--ink);color:var(--paper);border:3px solid var(--paper);border-radius:0}
+.fld:focus{outline:none;box-shadow:6px 6px 0 var(--paper)}
+textarea.fld{resize:vertical}
+.jr{display:grid;gap:.6rem;border:3px solid var(--paper);padding:.8rem;margin-bottom:1rem}
+#status{min-height:1.5rem;margin:1.2rem 0 0;font-weight:700}
+#done{margin-top:1rem}
+#done .btn{margin-top:1rem}
+:focus-visible{outline:4px dashed currentColor;outline-offset:4px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv,.msg p{opacity:1;transform:none}}
+</style>
+</head>
+<body class="setup-on viewing">
+
+<main id="setup"><div class="wrap">
+  <h1>Make it yours</h1>
+  <label class="q" for="nm">Who’s the birthday star?</label>
+  <input id="nm" type="text" maxlength="24" autocomplete="off" placeholder="Their name">
+  <span class="q">Add their photos</span>
+  <input id="pf" type="file" accept="image/*" multiple style="position:absolute;opacity:0;width:1px;height:1px">
+  <label class="drop" for="pf">Tap to choose photos (up to 8)</label>
+  <div id="thumbs"></div>
+  <span class="q">Inside jokes</span>
+  <div id="jrows"></div>
+  <button class="skip" id="addj" type="button">+ Add another joke</button>
+  <label class="q" for="msgin">The secret message</label>
+  <textarea class="fld" id="msgin" rows="6" maxlength="1500" placeholder="One paragraph per line. This is revealed at the very end."></textarea>
+  <label class="q" for="sg">Sign off</label>
+  <input class="fld" id="sg" type="text" maxlength="60" placeholder="Love, your best friend">
+  <button class="btn" id="go" type="button">Build the surprise</button>
+  <p id="status" aria-live="polite"></p>
+  <div id="done" hidden>
+    <span class="q">Your link is ready</span>
+    <input class="fld" id="lnk" type="text" readonly>
+    <button class="btn" id="cp" type="button">Copy link</button>
+  </div>
+  <button class="skip" id="pv" type="button" hidden>Preview it first</button>
+</div></main>
+
+<header class="hero inv"><div class="wrap">
+  <h1 id="t-hero"></h1>
+  <p id="t-sub"></p>
+  <div class="down" aria-hidden="true">↓</div>
+</div></header>
+
+<div class="mq" aria-hidden="true"><div id="t-mq"></div></div>
+
+<section><div class="wrap">
+  <h2 class="rv" id="t-ph-h"></h2>
+  <div class="photos" id="photos"></div>
+</div></section>
+
+<section class="inv"><div class="wrap">
+  <h2 class="rv" id="t-jk-h"></h2>
+  <div class="jokes" id="jokes"></div>
+  <p class="hint rv" id="t-jk-hint"></p>
+</div></section>
+
+<section class="secret"><div class="wrap">
+  <div id="lock" class="rv">
+    <h2 id="t-lock-h"></h2>
+    <button class="hold" id="hold" type="button"><span id="t-hold"></span></button>
+  </div>
+  <div class="msg" id="msg" aria-live="polite">
+    <h2 id="t-msg-h"></h2>
+    <div id="lines"></div>
+    <div class="sign" id="t-sign"></div>
+  </div>
+</div></section>
+
+<footer hidden><button class="redo" id="redo" type="button">Make your own surprise</button></footer>
+
+<canvas id="cv" aria-hidden="true"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ============ SUPABASE CONFIG ============ */
+// Replace these two values with your Supabase project URL and anon/public key.
+// Never put a Supabase service_role key in browser code.
+const SUPABASE_URL = "https://hfmdqoqduuulsksxrcmv.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_qrxwIAS6kDlpMcSYUBIjxg_J19xCeSA";
+const supabaseReady = !SUPABASE_URL.includes("YOUR_") && !SUPABASE_ANON_KEY.includes("YOUR_");
+const supabaseClient = supabaseReady ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+const PHOTO_BUCKET = "birthday-photos";
+
+/* ============ EDIT EVERYTHING HERE ============ */
+const SITE = {
+  name: "Alex",
+  age: "25",
+  subtitle: "Scroll down. Something is waiting for you.",
+  marquee: ["Happy birthday", "Another lap around the sun", "Legend status", "Cake o’clock"],
+
+  photosTitle: "The hall of fame",
+  /* src: use a photo as a data: URL (remote links are blocked on a published page).
+     Leave src empty to show a placeholder. */
+  photos: [
+    { src: "", caption: "That one trip" },
+    { src: "", caption: "Peak chaos" },
+    { src: "", caption: "Matching outfits (oops)" },
+    { src: "", caption: "The sunset era" }
+  ],
+
+  jokesTitle: "Inside jokes",
+  jokesHint: "Tap a card. Only we get these.",
+  jokes: [
+    { front: "The pizza incident", back: "Write the punchline here. Nobody else will understand." },
+    { front: "“I’m five minutes away”", back: "You were not five minutes away." },
+    { front: "The playlist", back: "Seven hours of the same three songs. Iconic." },
+    { front: "Wrong bus, right adventure", back: "Best detour of our lives." }
+  ],
+
+  lockTitle: "One last thing.",
+  holdLabel: "Press and hold",
+
+  secretTitle: "Happy birthday!",
+  secretLines: [
+    "Write your secret message here, one line per paragraph.",
+    "Tell them what they mean to you. Make it a little bit sappy.",
+    "Thank you for being my person. Now go eat some cake."
+  ],
+  signature: "Love, your best friend"
+};
+/* ============ END OF EDITABLE TEXT ============ */
+
+const $ = id => document.getElementById(id);
+
+// hero
+function renderHero() {
+  const h = $("t-hero");
+  h.innerHTML = '<span>Happy</span> <span style="animation-delay:.15s">Bday</span>';
+  const n = document.createElement("span"); n.className = "name"; n.style.animationDelay = ".3s"; n.textContent = SITE.name;
+  h.append(n); document.title = "Happy Birthday, " + SITE.name + "!";
+}
+$("t-sub").textContent = SITE.subtitle;
+$("t-mq").textContent = (SITE.marquee.join("  ★  ") + "  ★  ").repeat(4);
+$("t-ph-h").textContent = SITE.photosTitle;
+$("t-jk-h").textContent = SITE.jokesTitle;
+$("t-jk-hint").textContent = SITE.jokesHint;
+$("t-lock-h").textContent = SITE.lockTitle;
+$("t-hold").textContent = SITE.holdLabel;
+$("t-msg-h").textContent = SITE.secretTitle;
+$("t-sign").textContent = SITE.signature;
+
+// placeholder photo (grey pattern) when no src given
+const ph = n => "data:image/svg+xml," + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><rect width="400" height="500" fill="#d9d9d9"/><g fill="#000">' +
+  '<circle cx="' + (120 + n * 40) + '" cy="200" r="70"/><rect x="60" y="320" width="280" height="200" rx="100"/></g>' +
+  '<text x="200" y="470" font-family="Arial Black" font-size="26" fill="#fff" text-anchor="middle">PHOTO ' + (n + 1) + '</text></svg>');
+
+function renderPhotos() {
+$("photos").innerHTML = "";
+SITE.photos.forEach((p, i) => {
+  const f = document.createElement("figure");
+  f.className = "ph rv"; f.tabIndex = 0; f.style.margin = 0;
+  f.style.transitionDelay = (i % 3) * 90 + "ms";
+  const im = new Image(); im.src = p.src || ph(i); im.alt = p.caption; im.loading = "lazy";
+  const c = document.createElement("figcaption"); c.textContent = p.caption;
+  f.append(im, c); $("photos").append(f); io.observe(f);
+});
+}
+
+function renderJokes() {
+$("jokes").innerHTML = "";
+SITE.jokes.forEach((j, i) => {
+  const b = document.createElement("button");
+  b.className = "jk rv"; b.type = "button"; b.style.transitionDelay = (i % 2) * 100 + "ms";
+  b.innerHTML = "<i><b></b><em></em></i>";
+  b.querySelector("b").textContent = j.front; b.querySelector("em").textContent = j.back;
+  b.onclick = () => b.classList.toggle("flip");
+  $("jokes").append(b); io.observe(b);
+});
+}
+
+// scroll reveal
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .15 });
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+// hold to unlock
+const hold = $("hold"); let t0 = 0, raf = 0, done = false; const HOLD_MS = 1500;
+function tick() {
+  const p = Math.min((performance.now() - t0) / HOLD_MS, 1);
+  hold.style.setProperty("--p", p);
+  if (p >= 1) return unlock();
+  raf = requestAnimationFrame(tick);
+}
+function start(e) { if (done) return; e.preventDefault(); t0 = performance.now(); raf = requestAnimationFrame(tick); }
+function stop() { if (done) return; cancelAnimationFrame(raf); hold.style.setProperty("--p", 0); }
+hold.addEventListener("pointerdown", start);
+["pointerup", "pointerleave", "pointercancel"].forEach(ev => hold.addEventListener(ev, stop));
+hold.addEventListener("keydown", e => { if ((e.key === " " || e.key === "Enter") && !e.repeat) start(e); });
+hold.addEventListener("keyup", stop);
+
+function unlock() {
+  done = true; $("lock").style.display = "none"; $("msg").classList.add("on");
+  SITE.secretLines.forEach((l, i) => {
+    const p = document.createElement("p"); p.textContent = l; $("lines").append(p);
+    setTimeout(() => p.classList.add("in"), 500 + i * 900);
+  });
+  confetti(); setTimeout(confetti, 900);
+  $("msg").scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+// black & white confetti
+const cv = $("cv"), cx = cv.getContext("2d"); let bits = [], running = false;
+function size() { cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; }
+addEventListener("resize", size); size();
+function confetti() {
+  if (matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  const d = devicePixelRatio;
+  for (let i = 0; i < 140; i++) bits.push({ x: cv.width / 2, y: cv.height * .55, vx: (Math.random() - .5) * 22 * d, vy: (-Math.random() * 20 - 6) * d,
+    s: (6 + Math.random() * 8) * d, r: Math.random() * 6, vr: (Math.random() - .5) * .4, w: Math.random() < .5 });
+  if (!running) { running = true; loop(); }
+}
+function loop() {
+  cx.clearRect(0, 0, cv.width, cv.height);
+  bits.forEach(b => { b.x += b.vx; b.y += b.vy; b.vy += .5 * devicePixelRatio; b.r += b.vr;
+    cx.save(); cx.translate(b.x, b.y); cx.rotate(b.r);
+    cx.fillStyle = b.w ? "#fff" : "#000"; cx.strokeStyle = "#000"; cx.lineWidth = 2 * devicePixelRatio;
+    cx.fillRect(-b.s / 2, -b.s / 4, b.s, b.s / 2); cx.strokeRect(-b.s / 2, -b.s / 4, b.s, b.s / 2); cx.restore(); });
+  bits = bits.filter(b => b.y < cv.height + 40);
+  if (bits.length) requestAnimationFrame(loop); else { running = false; cx.clearRect(0, 0, cv.width, cv.height); }
+}
+
+/* ---- builder + shared viewer (Supabase) ---- */
+const nm = $("nm"), thumbs = $("thumbs"), st = $("status");
+let mine = [], last = null;
+
+function addJoke() {
+  const r = document.createElement("div"); r.className = "jr";
+  const a = document.createElement("input"), c = document.createElement("input");
+  [a, c].forEach(e => { e.type = "text"; e.className = "fld"; e.maxLength = 160; });
+  a.maxLength = 60; a.placeholder = "The joke or moment (front of card)"; c.placeholder = "The punchline (back of card)";
+  r.append(a, c); $("jrows").append(r);
+}
+addJoke(); addJoke();
+$("addj").onclick = () => { if ($("jrows").children.length < 8) addJoke(); };
+
+function drawThumbs() {
+  thumbs.innerHTML = "";
+  mine.forEach((p, i) => {
+    const d = document.createElement("div"); d.className = "th";
+    const im = new Image(); im.src = p.src; im.alt = "";
+    const c = document.createElement("input"); c.placeholder = "Caption"; c.maxLength = 40; c.value = p.caption; c.oninput = () => p.caption = c.value;
+    const x = document.createElement("button"); x.type = "button"; x.textContent = "×"; x.setAttribute("aria-label", "Remove photo");
+    x.onclick = () => { mine.splice(i, 1); drawThumbs(); };
+    d.append(im, x, c); thumbs.append(d);
+  });
+}
+function shrink(f) {
+  return new Promise(res => {
+    const u = URL.createObjectURL(f), im = new Image();
+    im.onload = () => {
+      const k = Math.min(1, 700 / Math.max(im.width, im.height)), c = document.createElement("canvas");
+      c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+      c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(u);
+      let q = .72, s = c.toDataURL("image/jpeg", q);
+      while (s.length > 170000 && q > .3) { q -= .12; s = c.toDataURL("image/jpeg", q); }
+      res(s);
+    };
+    im.onerror = () => { URL.revokeObjectURL(u); res(null); }; im.src = u;
+  });
+}
+$("pf").onchange = async e => {
+  for (const f of [...e.target.files]) {
+    if (mine.length >= 8) break;
+    if (!f.type.startsWith("image/")) continue;
+    const s = await shrink(f); if (s) mine.push({ src: s, caption: "" });
+  }
+  e.target.value = ""; drawThumbs();
+};
+function collect() {
+  return {
+    name: nm.value.trim() || SITE.name,
+    jokes: [...$("jrows").children].map(r => ({ front: r.children[0].value.trim(), back: r.children[1].value.trim() })).filter(j => j.front),
+    lines: $("msgin").value.split("\n").map(s => s.trim()).filter(Boolean),
+    sign: $("sg").value.trim() || SITE.signature
+  };
+}
+function showSite(d, photos) {
+  SITE.name = String(d.name || SITE.name);
+  SITE.photos = (photos || []).map(p => ({src:String(p.src || ""), caption:String(p.caption || "")}));
+  SITE.jokes = Array.isArray(d.jokes) && d.jokes.length ? d.jokes.map(j => ({front:String(j.front || ""), back:String(j.back || "")})) : [];
+  SITE.secretLines = Array.isArray(d.lines) && d.lines.length ? d.lines.map(String) : [];
+  SITE.signature = String(d.sign || "");
+  SITE.marquee[0] = "Happy birthday " + SITE.name;
+  renderHero(); renderPhotos(); renderJokes();
+  $("t-mq").textContent = (SITE.marquee.join("  ★  ") + "  ★  ").repeat(4);
+  $("t-sign").textContent = SITE.signature;
+  $("lines").innerHTML = ""; $("msg").classList.remove("on"); $("lock").style.display = "";
+  done = false; hold.style.setProperty("--p", 0);
+  document.body.classList.remove("setup-on", "viewing");
+  scrollTo(0, 0);
+}
+function dataUrlToBlob(dataUrl) {
+  const parts = dataUrl.split(",");
+  const mime = parts[0].match(/:(.*?);/)[1];
+  const binary = atob(parts[1]);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new Blob([bytes], {type:mime});
+}
+async function uploadPhotos(id) {
+  const out = [];
+  for (let i = 0; i < mine.length; i++) {
+    const p = mine[i], path = `${id}/${i}.jpg`;
+    const { error: uploadError } = await supabaseClient.storage.from(PHOTO_BUCKET)
+      .upload(path, dataUrlToBlob(p.src), {contentType:"image/jpeg", upsert:true});
+    if (uploadError) throw uploadError;
+    const { data } = supabaseClient.storage.from(PHOTO_BUCKET).getPublicUrl(path);
+    out.push({src:data.publicUrl, caption:(p.caption || "").trim()});
+  }
+  return out;
+}
+$("go").onclick = async () => {
+  const btn = $("go"), d = collect();
+  if (!supabaseReady || !supabaseClient) {
+    st.textContent = "Connect Supabase first: add your project URL and anon key in the SUPABASE CONFIG section.";
+    return;
+  }
+  if (!d.name.trim()) { st.textContent = "Please enter the birthday person's name."; return; }
+  if (!d.lines.length) { st.textContent = "Please add at least one line to the secret message."; return; }
+  btn.disabled = true; st.textContent = "Saving your surprise and uploading photos…";
+  try {
+    const id = "b" + crypto.randomUUID().replaceAll("-", "");
+    const photos = await uploadPhotos(id);
+    const { error } = await supabaseClient.from("surprises").insert({
+      id, name:d.name, jokes:d.jokes, lines:d.lines, sign:d.sign, photos
+    });
+    if (error) throw error;
+    const link = `${location.origin}${location.pathname}#${id}`;
+    $("lnk").value = link; $("done").hidden = false;
+    st.textContent = "Your surprise is ready. Copy the link and share it!";
+    $("done").scrollIntoView({behavior:"smooth", block:"center"});
+    $("pv").hidden = false;
+    last = () => showSite(d, photos);
+  } catch (e) {
+    console.error(e);
+    st.textContent = "Couldn't build the link: " + (e.message || "Please check your Supabase setup and try again.");
+  } finally { btn.disabled = false; }
+};
+$("cp").onclick = async () => {
+  const value = $("lnk").value;
+  try { await navigator.clipboard.writeText(value); $("cp").textContent = "Copied!"; }
+  catch (e) { $("lnk").focus(); $("lnk").select(); document.execCommand("copy"); $("cp").textContent = "Copied!"; }
+};
+$("pv").onclick = () => { document.querySelector("footer").hidden = false; last && last(); };
+$("redo").onclick = () => { location.hash = ""; document.body.classList.add("setup-on"); document.body.classList.remove("viewing"); scrollTo(0, 0); };
+
+function lockBuilder() {
+  const s = $("setup"), f = document.querySelector("footer");
+  if (s) s.remove(); if (f) f.remove();
+}
+async function route() {
+  const id = location.hash.slice(1);
+  if (!/^b[a-f0-9]{32}$/.test(id)) {
+    document.body.classList.remove("viewing"); document.body.classList.add("setup-on");
+    return;
+  }
+  document.body.classList.add("viewing");
+  document.body.classList.remove("setup-on");
+  if (!supabaseReady || !supabaseClient) {
+    document.body.classList.remove("viewing");
+    st.textContent = "This birthday link is not connected to its database yet.";
+    return;
+  }
+  try {
+    const { data, error } = await supabaseClient.rpc("get_surprise", { surprise_id: id });
+    if (error) throw error;
+    if (!data) throw new Error("Surprise not found");
+    showSite(data, Array.isArray(data.photos) ? data.photos : []);
+    lockBuilder();
+  } catch (e) {
+    console.error(e);
+    document.body.classList.remove("viewing", "setup-on");
+    lockBuilder();
+    $("t-sub").textContent = "This surprise couldn't be loaded. Check the link or ask the sender to create it again.";
+  }
+}
+addEventListener("hashchange", route);
+renderHero(); renderPhotos(); renderJokes(); route();
+</script>
+</body>
+</html>
